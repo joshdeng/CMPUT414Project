@@ -1,5 +1,6 @@
 import math
 
+# read bvh file and return the data as string
 def readFile(name):
     endofprogram=False
     try:
@@ -16,6 +17,7 @@ def readFile(name):
         infile.close()
     return rawData
 
+# parse the data into float
 def parseData(rawData):
     motionData=[]
     for i in range(len(rawData)):
@@ -31,6 +33,7 @@ def parseData(rawData):
             motionData[i][j]=float(motionData[i][j])
     return motionData
 
+# compare the error using the equation in report
 def compare(motionA,motionB):
     err = 0
     frame = 0
@@ -53,6 +56,8 @@ def compare(motionA,motionB):
 
 
 def main():
+
+    # read mutiple bvh file then compare them as pairs
     name1 = "staystill.bvh.txt"
     rawData1 = readFile(name1)
     motionData1 = parseData(rawData1)
