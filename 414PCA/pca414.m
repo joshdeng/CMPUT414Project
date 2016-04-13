@@ -5,8 +5,8 @@ clear all;
 %Set valid length to 250
 dataLength=250; 
 
-%Here I just paste dataset from file reader script, both matrices have
-%been resized
+%Here I just paste dataset from hitboxReader.py, both matrices have
+%been resized to same length
 A=[16, 14, 14, 14, 14, 14, 14, 14, 14, 14, 14, 14, 14, 14, 14, 14, 14, 14, 14, 14, 14, 14, 14, 14, 14, 14, 14, 14, 14, 14, 14, 14, 14, 14, 14, 14, 14, 14, 14, 14, 14, 14, 14, 14, 14, 14, 14, 14, 14, 14, 14, 14, 14, 14, 14, 14, 14, 14, 14, 14, 14, 10, 10, 10, 10, 10, 10, 10, 10, 10, 10, 10, 10, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 14, 14, 14, 14, 14, 14, 14, 14, 3, 3, 3, 3, 3, 3, 3, 3, 3, 3, 1, 1, 1, 10, 10, 10, 10, 10, 10, 10, 10, 10, 10, 10, 10, 10, 10, 10, 10, 10, 10, 10, 10, 10, 10, 14, 14, 14, 14, 14, 14, 14, 14, 14, 14, 14, 14, 14, 14, 14, 14, 14, 14, 1, 1, 1, 1, 1, 1, 1, 1, 10, 10, 10, 10, 10, 10, 10, 10, 10, 10, 10, 10, 10, 10, 10, 10, 10, 10, 10, 10, 10, 10, 10, 10, 10, 10, 10, 10, 10, 10, 14, 14, 14, 14, 14, 14, 14, 14, 14]
 B=[16, 14, 14, 14, 14, 14, 14, 14, 14, 14, 14, 14, 14, 14, 14, 14, 14, 14, 14, 14, 14, 14, 14, 14, 14, 14, 14, 14, 14, 14, 14, 14, 14, 14, 14, 14, 14, 14, 14, 14, 14, 14, 14, 14, 14, 14, 14, 14, 14, 14, 14, 14, 14, 14, 14, 14, 14, 14, 14, 14, 14, 14, 14, 14, 10, 10, 10, 10, 10, 10, 10, 10, 10, 10, 10, 10, 10, 10, 10, 10, 10, 10, 10, 10, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 3, 3, 3, 3, 3, 3, 3, 3, 3, 3, 14, 14, 14, 14, 1, 1, 1, 1, 1, 1, 1, 1, 10, 10, 10, 10, 10, 10, 10, 10, 10, 10, 10, 10, 10, 10, 10, 10, 10, 10, 10, 10, 10, 10, 10, 10, 10, 10, 10, 10, 10, 10, 10, 10, 10, 10, 10, 10, 10, 10, 3, 3, 3, 3, 3, 3, 3, 3, 3, 14, 14, 14, 14, 12, 12, 12, 12, 12, 12, 12, 12, 12, 1, 1, 1, 1, 1, 1, 10, 10, 10, 10, 10, 10, 10, 10, 10, 10, 10, 10, 10, 10, 10, 10, 10, 10, 10, 10, 10, 10, 10, 10, 10, 10, 10, 10, 10, 10, 10, 10, 10, 10, 10, 10, 10, 10, 3, 3, 3, 3, 3, 14, 14, 12, 12, 12, 12, 12, 12]
 A=A';
@@ -20,7 +20,7 @@ title('Data from trigger boxes method');
 %Get mean
 Amean=mean(A);
 Bmean=mean(B);
-%Polarize values
+%Polarize values to positive ones and negative ones
 Anew=A-Amean*ones(dataLength,1);
 Bnew=B-Bmean*ones(dataLength,1);
 
@@ -31,7 +31,7 @@ covMatrix=cov(Anew,Bnew);
 D=diag(D);
 maxeigval=V(:,find(D==max(D)));
 
-%Get projection onto the eigenvectors
+%Get projection onto the eigenvalues
 finaldata=maxeigval'*[Anew,Bnew]';
 subplot(3,1,2);
 stem(finaldata, 'DisplayName', 'finaldata', 'YDataSource', 'finaldata');
@@ -43,13 +43,13 @@ title('After Classification')
 hold on
 
 for i=1:size(finaldata,2)
-    %Mark positive value with red
-    if  finaldata(i)>=0
-        plot(A(i),B(i),'o')
-        plot(A(i),B(i),'r*')
-    %And mark negative ones with green
-    else
+    %Mark negative ones with green
+    if  finaldata(i)<0
         plot(A(i),B(i),'o')
         plot(A(i),B(i),'g*')
+    %Mark positive values with red
+    else
+        plot(A(i),B(i),'o')
+        plot(A(i),B(i),'r*')
     end  
 end
