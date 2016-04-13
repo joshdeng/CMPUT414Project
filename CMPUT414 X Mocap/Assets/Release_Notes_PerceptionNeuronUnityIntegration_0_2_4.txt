@@ -1,0 +1,29 @@
+﻿NeuronUnityIntegration Release Notes
+------------------------------------------
+Release date: Sep.18.2015
+Version: 0.2.4
+
+NeuronUnityIntegration is the integration of Perception Neurons real-time data stream
+inside Unity. Compatible with Unity 4.x and 5.x
+
+------------------------------------------
+CHANGES IN VERSION 0.2.4:
+
+* Replaced single mesh model with a more optimized version (50% poly-count).
+* Fixed the OVR example to make it work with the newest Oculus Unity Integration.
+* Fixed a bug within the collider template prefab.
+
+------------------------------------------
+CHANGES IN VERSION 0.2.3:
+
+* Added OSX bundle package of the BVH data stream reader.
+* Replaced the model and skeleton structure for higher finger motion accuraccy.
+
+------------------------------------------
+CHANGES IN VERSION 0.2.2:
+
+* Added example script and scene for combining the OVR rig with the skeleton tracking.
+* Removed the manual from the asset package to be provided as a separate download.
+
+
+------------------------------------------
